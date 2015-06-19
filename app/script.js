@@ -36,4 +36,22 @@ $(function() {
     });
   });
 
+  $("#submitWords").on('submit', function(e){
+    //prevents front page from reloading
+    e.preventDefault();
+
+    var adjective = $("input[name=adjective]").val();
+    //this ifstatement checks to see if adjective is thruthy ie: is there a word in adjective
+    var adjPost;
+
+    if (adjective) {
+      adjPost = {word: adjective};
+      $.post("adjective", adjPost, function(response){
+        var adjectiveRes = response.msg;
+        $("#adjectiveRes").text(adjectiveRes);
+      });
+    }
+  });
+
+
 });
