@@ -32,21 +32,44 @@ app.get('/', function(req, res){
 });
 
 //Get routes
-app.get('/adjective', resRandomWord(adjective));
-app.get('/verb', resRandomWord(verb));
-app.get('/noun', resRandomWord(noun));
+app.get('/adjective', getResponse(adjective));
+app.get('/verb', getResponse(verb));
+app.get('/noun', getResponse(noun));
 
 //post routes
 //post routes are seperate from get routes, thats why you can use the same route name
-app.post('/adjective', function(req, res) {
-  var word = postRandomWord(req.body.word, adjective);
-  res.json(word);
+// app.post('/adjective', function(req, res) {
+//   var word = postRandomWord(req.body.word, adjective);
+//   res.json(word);
+// });
+app.post('/adjective', postResponse(adjective));
+app.post('/verb', postResponse(verb));
+app.post('/noun', postResponse(noun));
+
+app.post('/locked-adj', function(req, res){
+ var word = req.body
+ res.json(word);
+});
+app.post('/locked-verb', function(req, res){
+ var word = req.body
+ res.json(word);
+});
+app.post('/locked-noun', function(req, res){
+ var word = req.body
+ res.json(word);
 });
 
 
-function resRandomWord(wordType) {
+function getResponse(wordType) {
   return function(req, res) {
     res.json(getRandomWord(wordType));
+  }
+}
+
+function postResponse(wordType) {
+  return function(req, res) {
+    var word = postRandomWord(req.body.word, wordType);
+    res.json(word);
   }
 }
 

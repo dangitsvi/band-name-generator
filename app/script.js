@@ -1,39 +1,80 @@
-/*var stringArr = ['Always borrow money from a pessimist. He won\'t expect it back. -Oscar Wilde', 'Friendship is like peeing on yourself: everyone can see it, but only you get the warm feeling that it brings. - ROBERT BLOCH', 'Dogs have masters. Cats have staff. - ANONYMOUS', 'Knowledge is knowing a tomato is a fruit; wisdom is not putting it in a fruit salad. -MILES KINGTON', 'Patience is something you admire in the driver behind you, but not in one ahead. - BILL MCGLASHEN' ];
-
 $(function() {
 
-//jquery here
-  $("#button").on("click", function(){
-      var msg = randString(stringArr);
-      $("#string").text(msg);
-  });
-
-});
-
-
-function randString (stringArr) {
-  var length = stringArr.length;
-  var randNum = Math.floor(Math.random() * length);
-  return stringArr[randNum];
-}
-*/
-
-$(function() {
+  var adjLocked = false;
+  var verbLocked = false;
+  var nounLocked = false;
 
 //jquery here
   $("#button").on("click", function() {
-    $.get("/adjective", function(response){
-      var adjective = response.word;
-      $("#adjective").text(adjective);
-    });
-    $.get("/verb", function(response){
-      var verb = " " + response.word;
-      $("#verb").text(verb);
-    });
-    $.get("/noun", function(response){
-      var noun = " " + response.word;
-      $("#noun").text(noun);
-    });
+    if (!adjLocked){
+      $.get("/adjective", function(response){
+        var adjective = response.word;
+        $("#adjective").text(adjective);
+      });
+    }
+    if (!verbLocked){
+      $.get("/verb", function(response){
+        var verb = " " + response.word;
+        $("#verb").text(verb);
+      });
+    }
+    if (!nounLocked){
+      $.get("/noun", function(response){
+        var noun = " " + response.word;
+        $("#noun").text(noun);
+      });
+    }
+  });
+
+  $("#lockWords").on('submit', function(e){
+    e.preventDefault();
+
+    var adjective = $("input[name=lockAdj]").val();
+    var verb = $("input[name=lockVerb]").val();
+    var noun = $("input[name=lockNoun]").val();
+    //this ifstatement checks to see if adjective is thruthy ie: is there a word in adjective
+    var adjPost;
+    var verbPost;
+    var nounPost;
+
+    adjLocked = false;
+    verbLocked = false;
+    nounLocked = false;
+
+    if(adjective) {
+      adjPost = {word: adjective};
+      $.post("/locked-adj", adjPost, function(response){
+        var adjectiveRes = response.word;
+        $("#adjective").text(adjectiveRes);
+      });
+      adjLocked = true;
+    }
+
+    if(verb) {
+      verbPost = {word: verb};
+      $.post("/locked-verb", verbPost, function(response){
+        var verbRes = response.word;
+        $("#verb").text(verbRes);
+      });
+      verbLocked = true;
+    }
+
+    if(noun) {
+      nounPost = {word: noun};
+      $.post("/locked-noun", nounPost, function(response){
+        var nounRes = response.word;
+        $("#noun").text(nounRes);
+      });
+      nounLocked = true;
+    }
+  });
+
+  $("#unlock").on('click', function(e){
+    e.preventDefault();
+
+    adjLocked = false;
+    verbLocked = false;
+    nounLocked = false;
   });
 
   $("#submitWords").on('submit', function(e){
@@ -41,14 +82,34 @@ $(function() {
     e.preventDefault();
 
     var adjective = $("input[name=adjective]").val();
+    var verb = $("input[name=verb]").val();
+    var noun = $("input[name=noun]").val();
     //this ifstatement checks to see if adjective is thruthy ie: is there a word in adjective
     var adjPost;
+    var verbPost;
+    var nounPost;
 
     if (adjective) {
       adjPost = {word: adjective};
       $.post("adjective", adjPost, function(response){
         var adjectiveRes = response.msg;
         $("#adjectiveRes").text(adjectiveRes);
+      });
+    }
+
+    if (verb) {
+      verbPost = {word: verb};
+      $.post("verb", verbPost, function(response){
+        var verbRes = response.msg;
+        $("#verbRes").text(verbRes);
+      });
+    }
+
+    if (noun) {
+      nounPost = {word: noun};
+      $.post("noun", nounPost, function(response){
+        var nounRes = response.msg;
+        $("#nounRes").text(nounRes);
       });
     }
   });
