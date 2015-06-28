@@ -17,7 +17,10 @@ module.exports = function(grunt) {
         undef: true,
         unused: true,
         indent: 2,
-        node: true
+        node: true,
+        globals: {
+          $: true
+        }
       }
     },
     jscs: {

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Band Name Generator</title>
+</head>
+<body>
+  <h2>Band Name Generator</h2>
+  <button id="button">Randomize</button>
+  <p>
+    <span id="adjective"></span>
+    <span id="verb"></span>
+    <span id="noun"></span>
+  </p>
+  <h3>Add your own words!</h3>
+  <form id="submitWords">
+    <label for="user-adjective">Give us an adjective: </label>
+    <input type="text" name="adjective" id="user-adjective">
+
+    <label for="user-verb">Give us a verb: </label>
+    <input type="text" name="verb" id="user-verb">
+
+    <label for="user-noun">Give us a plural noun: </label>
+    <input type="text" name="noun" id="user-noun">
+
+    <input type="submit" value="Submit Words">
+  </form>
+
+  <h4>Really like a certain word? Want your adjective to always be "sexylicious"? Then lock in a word here!</h4>
+  <form id="lockWords">
+    <label for="lockAdj">Lock Adjective</label>
+    <input type="text" name="lockAdj" id="lockAdj" >
+
+    <label for="lockVerb">Lock Verb</label>
+    <input type="text" name="lockVerb" id="lockVerb" >
+
+    <label for="lockNoun">Lock Noun</label>
+    <input type="text" name="lockNoun" id="lockNoun" >
+
+    <input type="submit" value="Lock Words" >
+  </form>
+
+  <button id="unlock">Unlock Words</button>
+
+  <p id="adjectiveRes"></p>
+  <p id="verbRes"></p>
+  <p id="nounRes"></p>
+
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <!-- <link rel="stylesheet" type="text/css" href="stylesheet.css"> -->
+  <script src="script.js"></script>
+</body>
+</html>
